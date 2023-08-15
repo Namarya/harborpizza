@@ -1,4 +1,4 @@
-# Senior Project for CTC 492 - Harbor Pizza Website
+# Harbor Pizza Website
 
 ## Current Features
 
