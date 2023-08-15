@@ -5,15 +5,16 @@ import { savePizza } from "../actions/customPizzaActions";
 import AddToCartBtn from "../components/AddToCartBtn";
 import { addToCart } from "../actions/cartActions";
 import { useDispatch } from "react-redux";
+
 export default function CustomPizzascreen() {
   const [selectedToppings, setSelectedToppings] = useState([]);
   const [pizzaSize, setPizzaSize] = useState(null);
   const [selectedButton, setSelectedButton] = useState(null);
   const dispatch = useDispatch();
 
-  const handleAddPizza = async (size, toppings) => {
+  const handleAddPizza = async (size, toppings, _id) => {
     try {
-      const response = await savePizza(size, toppings);
+      const response = await savePizza(size, toppings, _id);
       console.log("Custom pizza saved:", response.data);
     } catch (error) {
       console.error("Error saving custom pizza:", error.message);
@@ -24,7 +25,7 @@ export default function CustomPizzascreen() {
       name: "CUSTOM PIZZA",
       _id: uuidv4(),
       image:
-      "https://github.com/Namarya/menu-items/blob/main/imgs/custompizzaslices.png?raw=true",
+      "https://github.com/Namarya/menu-items/blob/main/imgs/custompizzaslices.jpg?raw=true",
       prices: [
         {
           "small (10 inches)": `${Number(4.69 + (.8 * selectedToppings.length)).toFixed(2)}`,
@@ -45,6 +46,7 @@ export default function CustomPizzascreen() {
     }
     dispatch(addToCart(pizza, 1, size));
 
+    return pizza;
   };
   const toppings = [
     "Pepperoni",
@@ -246,7 +248,7 @@ export default function CustomPizzascreen() {
         >
           <div
             className="size-selection rounded-3 "
-            style={{ color: "#fff", backgroundColor: "#111" }}
+            style={{ color: "#000", backgroundColor: "#fff" }}
           >
             <h1 className="m-0">SELECT YOUR SIZE</h1>
             <div
@@ -274,6 +276,7 @@ export default function CustomPizzascreen() {
               </button>
             </div>
           </div>
+          <hr />
           <div className="selected-toppings rounded-3 mt-1">
             <h1 className="m-0">TOPPINGS LIST</h1>
             <div
@@ -371,8 +374,8 @@ export default function CustomPizzascreen() {
           </div>
           <div
             onClick={() => {
-              addtocart();
-              handleAddPizza(pizzaSize, selectedToppings);
+              const p = addtocart();
+              handleAddPizza(pizzaSize, selectedToppings, p._id);
             }}
           >
             <AddToCartBtn />

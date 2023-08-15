@@ -8,6 +8,7 @@ router.post("/savecustompizza", async (req, res) => {
         const newPizza = new Pizza({
             size: pizza.size,
             toppings: pizza.toppings,
+            id: pizza._id,
         })
         await newPizza.save();
         console.log("custom pizza saved")
